@@ -8,9 +8,11 @@ import           Control.Monad.IO.Class ( liftIO )
 import           Control.Monad.State
     ( MonadState(..), StateT, evalState, execStateT, gets, modify, when )
 
+import qualified Data.ByteString        as BS
 import           Data.List              ( find, nub )
 import           Data.Text              ( Text )
 import qualified Data.Text              as Text
+import qualified Data.Text.Encoding     as Text
 import qualified Data.Text.IO           as Text
 import           Data.Void              ( Void )
 
@@ -211,7 +213,7 @@ runParseProgram s = evalState (runParserT (parseProgram (Program [] [] [])) base
 
 main :: IO ()
 main = do
-    s <- Text.readFile baseFile
+    s <- Text.decodeUtf8 <$> BS.readFile baseFile
     let prog = runParseProgram s
     case prog of
         Left e     -> putStr (errorBundlePretty e)
