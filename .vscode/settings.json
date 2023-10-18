@@ -1,0 +1,8 @@
+{
+    "python.analysis.extraPaths": [
+        "/home/pe200012/.vscode-insiders/extensions/continue.continue-0.0.412-linux-x64"
+    ],
+    "python.autoComplete.extraPaths": [
+        "/home/pe200012/.vscode-insiders/extensions/continue.continue-0.0.412-linux-x64"
+    ]
+}

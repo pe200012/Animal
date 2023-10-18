@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [synchronize, opened, reopened]
+  push:
+    branches: [main, master]
+  schedule:
+    # additionally run once per week (At 00:00 on Sunday) to maintain cache
+    - cron: "0 0 * * 0"
+
+jobs:
+  stack:
+    name: stack / ghc-${{ matrix.os }}-${{ matrix.ghc }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        ghc: ["9.4.5"]
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ankane/setup-postgres@v1
+      - uses: haskell/actions/setup@v2
+        name: Setup Haskell Stack
+        with:
+          ghc-version: ${{ matrix.ghc }}
+          enable-stack: true
+          stack-version: "latest"
+
+      - uses: actions/cache@v3
+        name: Cache ~/.stack
+        with:
+          path: ~/.stack
+          key: ${{ runner.os }}-${{ matrix.ghc }}-stack
+
+      - name: Install dependencies
+        run: |
+          stack build --system-ghc --test --bench --no-run-tests --no-run-benchmarks --only-dependencies
+
+      - name: Build
+        run: |
+          stack build --system-ghc --test --bench --no-run-tests --no-run-benchmarks
+
+      - name: Test
+        run: |
+          stack test --system-ghc
+      - name: Install Binary
+        run: |
+          stack install --system-ghc --local-bin-path ./bin/
+      - name: Compress binaries
+        uses: svenstaro/upx-action@v2
+        with:
+          files: |
+            ./bin/*
+      - name: Upload Binary
+        uses: actions/upload-artifact@v3
+        with:
+          name: ITS-${{ matrix.os }}
+          path: |
+            ./bin/

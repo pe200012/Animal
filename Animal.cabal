@@ -1,0 +1,82 @@
+cabal-version: 2.2
+
+-- This file has been generated from package.yaml by hpack version 0.35.2.
+--
+-- see: https://github.com/sol/hpack
+
+name:           Animal
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/pe200012/Animal#readme>
+homepage:       https://github.com/pe200012/Animal#readme
+bug-reports:    https://github.com/pe200012/Animal/issues
+author:         pe200012
+maintainer:     1326263755@qq.com
+copyright:      2023 pe200012
+license:        BSD-3-Clause
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    CHANGELOG.md
+
+source-repository head
+  type: git
+  location: https://github.com/pe200012/Animal
+
+library
+  exposed-modules:
+      Lib
+  other-modules:
+      Paths_Animal
+  autogen-modules:
+      Paths_Animal
+  hs-source-dirs:
+      src
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
+  build-depends:
+      base >=4.7 && <5
+    , containers
+    , megaparsec
+    , mtl
+    , text
+    , unordered-containers
+  default-language: Haskell2010
+
+executable Animal-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_Animal
+  autogen-modules:
+      Paths_Animal
+  hs-source-dirs:
+      app
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      Animal
+    , base >=4.7 && <5
+    , containers
+    , megaparsec
+    , mtl
+    , text
+    , unordered-containers
+  default-language: Haskell2010
+
+test-suite Animal-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_Animal
+  autogen-modules:
+      Paths_Animal
+  hs-source-dirs:
+      test
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      Animal
+    , base >=4.7 && <5
+    , containers
+    , megaparsec
+    , mtl
+    , text
+    , unordered-containers
+  default-language: Haskell2010

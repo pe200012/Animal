@@ -1,0 +1,67 @@
+# Function definitions
+Fur::有毛发
+Milk::有奶
+Feathers::有羽毛
+CanFly::会飞
+LaysEggs::会生蛋
+Carnivorous::吃肉
+SharpTeeth::有锋利牙齿
+Claws::有爪
+ForwardEyes::的眼睛向前方
+Hooves::有蹄
+Ruminates::有反刍特性
+BrownFur::有黄褐色皮毛
+DarkSpots::有暗斑点
+BlackStripes::有黑色条纹
+CannotFly::不会飞
+LongNeck::有长脖子
+LongLegs::有长腿
+CanSwim::会游泳
+BlackWhite::有黑白二色
+GoodFlyer::善飞
+
+Mammal::为哺乳动物
+Bird::为鸟类
+Carnivore::为食肉动物
+Ungulate::有蹄类
+Leopard::为豹
+Tiger::为虎
+Giraffe::为长颈鹿
+Zebra::为斑马
+Ostrich::为鸵鸟
+Penguin::为企鹅
+Albatross::为信天翁
+
+# Rule definitions
+IF Fur THEN Mammal
+IF Milk THEN Mammal
+IF Feathers THEN Bird
+IF CanFly AND LaysEggs THEN Bird
+IF Carnivorous THEN Carnivore
+IF SharpTeeth AND Claws AND ForwardEyes THEN Carnivore
+IF Mammal AND Hooves THEN Ungulate
+IF Mammal AND Ruminates THEN Ungulate
+IF Mammal AND Carnivore AND BrownFur AND DarkSpots THEN Leopard
+IF Mammal AND Carnivore AND BrownFur AND BlackStripes THEN Tiger
+IF Ungulate AND LongNeck AND LongLegs AND DarkSpots THEN Giraffe
+IF Ungulate AND BlackStripes THEN Zebra
+IF Bird AND CannotFly AND LongNeck AND LongLegs AND BlackWhite THEN Ostrich
+IF Bird AND CannotFly AND CanSwim AND BlackWhite THEN Penguin
+IF Bird AND GoodFlyer THEN Albatross
+
+# Facts (initial knowledge base)
+Fur(Tiger)
+Feathers(Ostrich)
+SharpTeeth(Tiger)
+Claws(Tiger)
+ForwardEyes(Tiger)
+Hooves(Giraffe)
+LongNeck(Giraffe)
+LongLegs(Giraffe)
+BrownFur(Leopard)
+DarkSpots(Leopard)
+BlackStripes(Tiger)
+CannotFly(Penguin)
+CanSwim(Penguin)
+BlackWhite(Penguin)
+GoodFlyer(Albatross)
