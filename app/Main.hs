@@ -212,11 +212,7 @@ runParseProgram :: FilePath -> Text -> Either (ParseErrorBundle Text Void) Progr
 runParseProgram n s = evalState (runParserT (parseProgram (Program [] [] [])) n s) []
 
 argParser :: OA.Parser String
-argParser
-    = OA.strOption
-        (OA.long "filepath"
-         <> OA.metavar "FILE"
-         <> OA.help "the knowledge database file begin processed")
+argParser = OA.strArgument (OA.metavar "FILE")
 
 main :: IO ()
 main = do
