@@ -3,6 +3,7 @@
 
 module Main ( main ) where
 
+import           Control.Applicative    ( (<**>) )
 import           Control.Monad          ( void )
 import           Control.Monad.IO.Class ( liftIO )
 import           Control.Monad.State
@@ -15,6 +16,8 @@ import qualified Data.Text              as Text
 import qualified Data.Text.Encoding     as Text
 import qualified Data.Text.IO           as Text
 import           Data.Void              ( Void )
+
+import qualified Options.Applicative    as OA
 
 import           Text.Megaparsec
     ( (<|>), MonadParsec(notFollowedBy), ParseErrorBundle, ParsecT, anySingle, choice, eof
@@ -205,16 +208,26 @@ parseProgram prog
                    }
         ]
 
-baseFile :: String
-baseFile = "base.know"
+runParseProgram :: FilePath -> Text -> Either (ParseErrorBundle Text Void) Program
+runParseProgram n s = evalState (runParserT (parseProgram (Program [] [] [])) n s) []
 
-runParseProgram :: Text -> Either (ParseErrorBundle Text Void) Program
-runParseProgram s = evalState (runParserT (parseProgram (Program [] [] [])) baseFile s) []
+argParser :: OA.Parser String
+argParser
+    = OA.strOption
+        (OA.long "filepath"
+         <> OA.metavar "FILE"
+         <> OA.help "the knowledge database file begin processed")
 
 main :: IO ()
 main = do
+    baseFile <- OA.execParser
+        (OA.info
+             (argParser <**> OA.helper)
+             (OA.fullDesc
+              <> OA.progDesc "Forward inference on expert system"
+              <> OA.header "Animal - a forward inference machine"))
     s <- Text.decodeUtf8 <$> BS.readFile baseFile
-    let prog = runParseProgram s
+    let prog = runParseProgram baseFile s
     case prog of
         Left e     -> putStr (errorBundlePretty e)
         Right prog -> do

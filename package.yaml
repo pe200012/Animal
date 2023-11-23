@@ -27,6 +27,7 @@ dependencies:
   - unordered-containers
   - mtl
   - megaparsec
+  - optparse-applicative
 
 ghc-options:
   - -Wall
